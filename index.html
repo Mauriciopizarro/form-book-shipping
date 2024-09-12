@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Envio 4000 dias libro</title>
+    <title>Envio 4000 días libro</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #e0f2f1;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start; /* Cambiado a flex-start para evitar que el formulario quede muy abajo */
+            min-height: 100vh; /* Asegura que el contenedor ocupe toda la altura */
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .form-container {
             background-color: #ffffff;
@@ -22,7 +24,6 @@
             width: 100%;
             max-width: 500px;
             box-sizing: border-box;
-            margin-top: 50%;
         }
         h2 {
             text-align: center;
@@ -58,19 +59,33 @@
             font-size: 16px;
             font-weight: bold;
             transition: background-color 0.3s ease;
+            width: 100%;
         }
         input[type="submit"]:hover {
             background-color: #004d40;
         }
-        .form-group input[type="text"],
-        .form-group input[type="number"] {
-            margin-top: 8px;
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 20px;
+            }
+            h2 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+            input, select, input[type="submit"] {
+                font-size: 18px;
+                padding: 14px;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="form-container">
-        <h2>Datos de envio</h2>
+        <h2>Datos de envío</h2>
         <form id="purchaseForm">
             <div class="form-group">
                 <label for="identification_number">DNI:</label>
@@ -101,8 +116,8 @@
                 <input type="text" id="street" name="street" required>
             </div>
             <div class="form-group">
-                <label for="street_number">Número de calle:</label>
-                <input type="number" id="street_number" name="street_number" required>
+                <label for="street_number">Número de calle (opcional):</label>
+                <input type="number" id="street_number" name="street_number">
             </div>
             <div class="form-group">
                 <label for="zip_code">Código postal:</label>
@@ -120,6 +135,9 @@
         document.getElementById('purchaseForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
+            // Si el campo street_number está vacío, asigna 0
+            const streetNumberValue = document.getElementById('street_number').value || 0;
+
             const formData = {
                 identification_number: parseInt(document.getElementById('identification_number').value),
                 phone_number: document.getElementById('phone_number').value,
@@ -128,7 +146,7 @@
                 country: document.getElementById('country').value,
                 city: document.getElementById('city').value,
                 street: document.getElementById('street').value,
-                street_number: parseInt(document.getElementById('street_number').value),
+                street_number: parseInt(streetNumberValue), // Usa el valor de streetNumberValue
                 zip_code: parseInt(document.getElementById('zip_code').value),
                 reference: document.getElementById('reference').value || null
             };
