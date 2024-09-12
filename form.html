@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envio 4000 dias libro</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f2f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            margin-top: 50%;
+        }
+        h2 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #004d40;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b2dfdb;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #00796b;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #004d40;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Datos de envio</h2>
+        <form id="purchaseForm">
+            <div class="form-group">
+                <label for="identification_number">DNI:</label>
+                <input type="number" id="identification_number" name="identification_number" required>
+            </div>
+            <div class="form-group">
+                <label for="phone_number">Número de teléfono:</label>
+                <input type="text" id="phone_number" name="phone_number" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Apellido:</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="country">País:</label>
+                <input type="text" id="country" name="country" required>
+            </div>
+            <div class="form-group">
+                <label for="city">Ciudad:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="form-group">
+                <label for="street">Calle:</label>
+                <input type="text" id="street" name="street" required>
+            </div>
+            <div class="form-group">
+                <label for="street_number">Número de calle:</label>
+                <input type="number" id="street_number" name="street_number" required>
+            </div>
+            <div class="form-group">
+                <label for="zip_code">Código postal:</label>
+                <input type="number" id="zip_code" name="zip_code" required>
+            </div>
+            <div class="form-group">
+                <label for="reference">Referencia (opcional):</label>
+                <input type="text" id="reference" name="reference">
+            </div>
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('purchaseForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                identification_number: parseInt(document.getElementById('identification_number').value),
+                phone_number: document.getElementById('phone_number').value,
+                name: document.getElementById('name').value,
+                last_name: document.getElementById('last_name').value,
+                country: document.getElementById('country').value,
+                city: document.getElementById('city').value,
+                street: document.getElementById('street').value,
+                street_number: parseInt(document.getElementById('street_number').value),
+                zip_code: parseInt(document.getElementById('zip_code').value),
+                reference: document.getElementById('reference').value || null
+            };
+
+            fetch('https://book-email-send.onrender.com/save/purchase', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Datos enviados exitosamente!');
+                console.log(data);
+            })
+            .catch(error => {
+                alert('Error al enviar datos, intente nuevamente.');
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
