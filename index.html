@@ -85,6 +85,9 @@
 </head>
 <body>
     <div class="form-container">
+        <div id="successMessage" style="display: none; margin-top: 20px; background-color: #dff0d8; color: #3c763d; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold;">
+            ¡Datos cargados correctamente!
+        </div>
         <h2>Datos de envío</h2>
         <form id="purchaseForm">
             <div class="form-group">
@@ -160,8 +163,8 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert('Datos enviados exitosamente!');
-                console.log(data);
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('purchaseForm').style.display = 'none';
             })
             .catch(error => {
                 alert('Error al enviar datos, intente nuevamente.');
