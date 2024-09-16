@@ -10,8 +10,8 @@
             background-color: #e0f2f1;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Cambiado a flex-start para evitar que el formulario quede muy abajo */
-            min-height: 100vh; /* Asegura que el contenedor ocupe toda la altura */
+            align-items: flex-start;
+            min-height: 100vh;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
@@ -63,6 +63,19 @@
         }
         input[type="submit"]:hover {
             background-color: #004d40;
+        }
+        /* Estilo para el botón cuando está deshabilitado */
+        input[type="submit"]:disabled {
+            background-color: #b0bec5; /* Cambia el color de fondo a gris */
+            cursor: not-allowed; /* Cambia el cursor para indicar que no es clickeable */
+        }
+        /* Estilo para el mensaje de "Enviando..." */
+        .sending-message {
+            display: none;
+            color: #ff9800;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
         }
         /* Responsive Design */
         @media (max-width: 600px) {
@@ -130,13 +143,20 @@
                 <label for="reference">Referencia (opcional):</label>
                 <input type="text" id="reference" name="reference">
             </div>
-            <input type="submit" value="Enviar">
+            <input type="submit" value="Enviar" id="submitButton">
+            <div id="sendingMessage" class="sending-message">Enviando...</div>
         </form>
     </div>
 
     <script>
         document.getElementById('purchaseForm').addEventListener('submit', function(event) {
             event.preventDefault();
+
+            // Deshabilitar el botón de enviar y mostrar el mensaje de "Enviando..."
+            const submitButton = document.getElementById('submitButton');
+            const sendingMessage = document.getElementById('sendingMessage');
+            submitButton.disabled = true;
+            sendingMessage.style.display = 'block';
 
             // Si el campo street_number está vacío, asigna 0
             const streetNumberValue = document.getElementById('street_number').value || 0;
@@ -149,7 +169,7 @@
                 country: document.getElementById('country').value,
                 city: document.getElementById('city').value,
                 street: document.getElementById('street').value,
-                street_number: parseInt(streetNumberValue), // Usa el valor de streetNumberValue
+                street_number: parseInt(streetNumberValue),
                 zip_code: parseInt(document.getElementById('zip_code').value),
                 reference: document.getElementById('reference').value || null
             };
